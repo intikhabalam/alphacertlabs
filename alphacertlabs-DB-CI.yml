@@ -1,0 +1,27 @@
+# Variable 'dbname' was defined in the Variables tab
+# Variable 'username' was defined in the Variables tab
+# Variable 'password' was defined in the Variables tab
+# Variable 'sqlserver' was defined in the Variables tab
+resources:
+  repositories:
+  - repository: self
+    type: git
+    ref: main
+jobs:
+- job: Job_1
+  displayName: Agent job 1
+  pool:
+    vmImage: vs2017-win2016
+  steps:
+  - checkout: self
+  - task: SqlAzureDacpacDeployment@1
+    displayName: Azure SQL SqlTask
+    inputs:
+      ConnectedServiceNameARM: 9d998518-65a1-4a11-a563-10c903a423c5
+      ServerName: $(sqlserver)
+      DatabaseName: $(dbname)
+      SqlUsername: $(username)
+      SqlPassword: $(password)
+      TaskNameSelector: SqlTask
+      SqlFile: sqlscript.sql
+...
